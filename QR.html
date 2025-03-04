@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiển thị Ảnh Khi Mở Hộp Quà</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #aad8ff;
+            transition: opacity 1s ease-in-out;
+            opacity: 1;
+            position: relative;
+        }
+
+        .gift-box {
+            width: 100px;
+            height: 100px;
+            background-color: #ffcc00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 4px solid #000;
+            box-shadow: 5px 5px 0 #000;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3; /* Đảm bảo nằm trên cùng trước khi mở */
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 10;
+            display: none;
+        }
+        
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff0;
+            animation: confetti-fall 2s linear infinite;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100%) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Ảnh hiển thị toàn màn hình */
+        .full-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain; /* Đảm bảo ảnh không bị cắt */
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 2;
+        }
+    </style>
+    <script>
+        function openGift() {
+            let giftBox = document.getElementById('giftBox');
+            let image = document.getElementById('giftImage');
+            let confettiContainer = document.getElementById('confetti');
+
+            // Ẩn hộp quà
+            giftBox.classList.add('hidden');
+
+            // Hiện ảnh quà
+            image.style.opacity = "1";
+
+            // Hiện hiệu ứng confetti
+            confettiContainer.style.display = 'block';
+
+            // Tạo nhiều confetti rơi
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti-piece');
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.animationDelay = `${Math.random()}s`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confettiContainer.appendChild(confetti);
+            }
+        }
+    </script>
+</head>
+<body>
+    <img id="giftImage" class="full-image" src="final83.jpg" alt="Ảnh quà tặng">
+    <div class="gift-box" id="giftBox" onclick="openGift()">🎁</div>
+    <div class="confetti" id="confetti"></div>
+</body>
+</html>
